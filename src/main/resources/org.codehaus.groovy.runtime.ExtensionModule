@@ -1,0 +1,3 @@
+moduleName = BouncyCastleExtension
+moduleVersion = 1.0
+extensionClasses = pl.helenium.showcase.groovy.extension.bouncycastle.BouncyCastleGroovyMethods
