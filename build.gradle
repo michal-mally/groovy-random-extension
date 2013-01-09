@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'groovy'
@@ -18,4 +20,10 @@ dependencies {
 
 test {
     useTestNG()
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter(ReplaceTokens, tokens: [ version: project.version ])
+    }
 }

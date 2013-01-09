@@ -1,4 +1,4 @@
 moduleName = GroovyRandomExtension
-moduleVersion = 1.0
+moduleVersion = @version@
 extensionClasses = pl.helenium.showcase.groovy.extension.random.RandomGroovyMethods
 staticExtensionClasses = pl.helenium.showcase.groovy.extension.random.RandomStaticGroovyMethods
