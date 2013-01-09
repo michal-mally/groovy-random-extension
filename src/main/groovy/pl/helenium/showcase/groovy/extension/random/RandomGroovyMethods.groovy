@@ -8,12 +8,16 @@ class RandomGroovyMethods {
         ThreadLocalRandom.current().nextInt(self)
     }
 
-    static Integer randomTo(Integer self, Integer upperBound) {
-        ThreadLocalRandom.current().nextInt(self, upperBound)
+    static <T> T random(Collection<T> self) {
+        if (!self) {
+            return null
+        }
+
+        self[self.size().random()]
     }
 
-    static <T> T random(Collection<T> self) {
-        self[self.size().random()]
+    static Integer randomTo(Integer self, Integer upperBound) {
+        ThreadLocalRandom.current().nextInt(self, upperBound)
     }
 
     private RandomGroovyMethods() {

@@ -5,31 +5,6 @@ import org.testng.annotations.Test
 
 class RandomExtensionTest {
 
-    @Test(invocationCount = 200)
-    void shallReturnRandomNumberFromRangeZeroToGivenNumberExclusively() {
-        // given
-        def upperBound = 100
-
-        // when
-        def random = upperBound.random()
-
-        // then
-        assert random in 0..<upperBound
-    }
-
-    @Test(invocationCount = 200)
-    void shallReturnRandomNumberFromRangeLowerBoundToGivenNumberExclusively() {
-        // given
-        def lowerBound = 10
-        def upperBound = 100
-
-        // when
-        def random = lowerBound.randomTo upperBound
-
-        // then
-        assert random in lowerBound..<upperBound
-    }
-
     @DataProvider
     Object[][] collections() {
         [
@@ -40,18 +15,45 @@ class RandomExtensionTest {
     }
 
 
-    @Test(dataProvider = 'collections')
-    void shallReturnRandomElementFromCollection(col) {
+    @Test(dataProvider = 'collections', timeOut = 1000L)
+    void shallReturnAllRandomElementsWhenGettingRandomOnCollection(Collection col) {
+        shallEventuallyReturnAllValues(col) {
+            col.random()
+        }
+    }
+
+    @Test(timeOut = 1000L)
+    void shallReturnAllBooleanValuesWhenGettingRandomOnBooleanClass() {
+        shallEventuallyReturnAllValues([true, false]) {
+            Boolean.random()
+        }
+    }
+
+    @Test(timeOut = 1000L)
+    void shallReturnAllValuesFromRangeWhenGettingRandomOnIntegerWithUpperBound() {
+        def lower = 10
+        def upper = 100
+        shallEventuallyReturnAllValues(lower..<upper) {
+            lower.randomTo upper
+        }
+    }
+
+    @Test
+    void shallReturnNullOnEmptyCollection() {
+        assert ! [].random()
+    }
+
+    void shallEventuallyReturnAllValues(Collection allElements, Closure select) {
         // given
-        def elementsLeft = new HashSet(col)
+        def elementsLeft = new HashSet(allElements)
 
         while (elementsLeft) {
             // when
-            def randomElement = col.random()
+            def selectedElement = select()
 
             // then
-            assert randomElement in col
-            elementsLeft -= randomElement
+            assert selectedElement in allElements
+            elementsLeft -= selectedElement
         }
     }
 
